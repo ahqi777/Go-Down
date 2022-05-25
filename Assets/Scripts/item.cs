@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class item : MonoBehaviour
+public class Item : MonoBehaviour
 {
     public Animator anim;
     public AudioSource itemmusic;
@@ -14,51 +14,43 @@ public class item : MonoBehaviour
         {
             itemmusic.Play();
             anim.SetBool("Eat", true);
-            
         }
-       
     }
-    public void appledead()
+    public void Appledead()
     {
-        FindObjectOfType<score>().appleeat();
+        FindObjectOfType<ScoreManager>().appleeat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
 
-    public void bananadead()
+    public void Bananadead()
     {
-        FindObjectOfType<score>().bananaeat();
+        FindObjectOfType<ScoreManager>().bananaeat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
-    public void cherrydead()
+    public void Cherrydead()
     {
-        FindObjectOfType<score>().cherryeat();
+        FindObjectOfType<ScoreManager>().cherryeat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
-    public void orangedead()
+    public void Orangedead()
     {
-        FindObjectOfType<score>().orangeeat();
+        FindObjectOfType<ScoreManager>().orangeeat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
-    public void melondead()
+    public void Melondead()
     {
-        FindObjectOfType<score>().meloneat();
+        FindObjectOfType<ScoreManager>().meloneat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
-    public void pinappledead()
+    public void Pinappledead()
     {
-        FindObjectOfType<score>().pinappleeat();
+        FindObjectOfType<ScoreManager>().pinappleeat();
         anim.SetBool("Eat", false);
         Destroy(gameObject);
     }
-    
-    void Update()
-    {
-    }
-   
-   
 }

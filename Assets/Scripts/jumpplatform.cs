@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class jumpplatform : MonoBehaviour
+public class Jumpplatform : MonoBehaviour
 {
     Animator anim;
     
     void Start()
     {
         anim = GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        
     }
     void OnCollisionEnter2D(Collision2D other)
     {

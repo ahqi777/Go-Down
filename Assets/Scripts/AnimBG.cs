@@ -26,13 +26,13 @@ public class AnimBG : MonoBehaviour
     {
         anim.SetBool("double", true);
         doublebgm.Play();
-        FindObjectOfType<PlayerCtrl>().audiostop();
+        FindObjectOfType<PlayerCtrl>().Audiostop();
     }
     public void Doubleover()
     {
         anim.SetBool("double", false);
         doublebgm.Pause();
-        FindObjectOfType<PlayerCtrl>().audiostart();
+        FindObjectOfType<PlayerCtrl>().Audiostart();
     }
    public void Score1()
     {

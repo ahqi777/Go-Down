@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class randomtrap : MonoBehaviour
+public class Randomtrap : MonoBehaviour
 {
     public List<GameObject> trap = new List<GameObject>();
     public float randomtime;

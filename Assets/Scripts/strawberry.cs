@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class strawberry : MonoBehaviour
+public class Strawberry : MonoBehaviour
 {
     public Animator anim;
     public AudioSource music;
@@ -17,15 +17,9 @@ public class strawberry : MonoBehaviour
         }
        
     }
-   
-    public void strawberrydead()
+    public void Strawberrydead()
     {
-        FindObjectOfType<score>().strawberryeat();
+        FindObjectOfType<ScoreManager>().strawberryeat();
         Destroy(gameObject);
     }
-    void Update()
-    {
-    }
-   
-   
 }

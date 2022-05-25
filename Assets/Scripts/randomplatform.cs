@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class randomplatform : MonoBehaviour
+public class Randomplatform : MonoBehaviour
 {
     public List<GameObject> platform = new List<GameObject>();
     public float randomtime;

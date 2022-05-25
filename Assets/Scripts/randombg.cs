@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class randombg : MonoBehaviour
+public class Randombg : MonoBehaviour
 {
     public List<GameObject> bg = new List<GameObject>();
     public float randomtime;

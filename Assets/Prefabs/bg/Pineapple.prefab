@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6457780011053318244}
   - component: {fileID: 6457780011053318243}
   - component: {fileID: 6457780011053318242}
-  - component: {fileID: 6657192231716084616}
+  - component: {fileID: -5368185599340061337}
   m_Layer: 0
   m_Name: Pineapple
   m_TagString: item
@@ -241,7 +241,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6657192231716084616
+--- !u!114 &-5368185599340061337
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6457780011053318248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e397d62f902c6fa408b849dc9d33de40, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cc6af8f81fcec94396f20e302cd75ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2

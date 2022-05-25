@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 190493309423387335}
   - component: {fileID: 190493309423387385}
   - component: {fileID: 8428600114587307073}
-  - component: {fileID: -55860200304744855}
+  - component: {fileID: -5320686303379876465}
   m_Layer: 0
   m_Name: Strawberry
   m_TagString: duoblepoint
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 190493309423387332}
   music: {fileID: 190493309423387385}
---- !u!114 &-55860200304744855
+--- !u!114 &-5320686303379876465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 190493309423387331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e397d62f902c6fa408b849dc9d33de40, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cc6af8f81fcec94396f20e302cd75ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2

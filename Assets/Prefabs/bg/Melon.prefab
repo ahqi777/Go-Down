@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 632025702251777797}
   - component: {fileID: 632025702251777794}
   - component: {fileID: 632025702251777799}
-  - component: {fileID: 632025702251777798}
   - component: {fileID: 632025702251777817}
-  - component: {fileID: 1465552975976926454}
+  - component: {fileID: 632025702251777798}
+  - component: {fileID: -1436905584875005512}
   m_Layer: 0
   m_Name: Melon
   m_TagString: item
@@ -132,20 +132,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.56983805, y: 0.3923111}
   m_EdgeRadius: 0
---- !u!114 &632025702251777798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632025702251777795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a53e56948c958544baeb438f766fc098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 632025702251777794}
-  itemmusic: {fileID: 632025702251777817}
 --- !u!82 &632025702251777817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -242,7 +228,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1465552975976926454
+--- !u!114 &632025702251777798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +237,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 632025702251777795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e397d62f902c6fa408b849dc9d33de40, type: 3}
+  m_Script: {fileID: 11500000, guid: a53e56948c958544baeb438f766fc098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 632025702251777794}
+  itemmusic: {fileID: 632025702251777817}
+--- !u!114 &-1436905584875005512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632025702251777795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc6af8f81fcec94396f20e302cd75ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2

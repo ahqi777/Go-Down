@@ -37,16 +37,16 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0f;
-        FindObjectOfType<PlayerCtrl>().audiostop();
-        FindObjectOfType<skill>().allstop();
+        FindObjectOfType<PlayerCtrl>().Audiostop();
+        FindObjectOfType<SkillManager>().allstop();
         pause.SetActive(true);
         joystick.SetActive(false);
     }
     public void Resume()
     {
         Time.timeScale = 1f;
-        FindObjectOfType<PlayerCtrl>().audiostart();
-        FindObjectOfType<skill>().allstart();
+        FindObjectOfType<PlayerCtrl>().Audiostart();
+        FindObjectOfType<SkillManager>().allstart();
         pause.SetActive(false);
         joystick.SetActive(true);
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class linerender : MonoBehaviour
+public class Linerender : MonoBehaviour
 {
     LineRenderer line;
     public Transform startpoint;

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum AnimationClip
+{
+    jump,
+    fall,
+    skill,
+}
+
 public class PlayerCtrl : MonoBehaviour
 {
     Rigidbody2D rb;
@@ -12,42 +19,48 @@ public class PlayerCtrl : MonoBehaviour
     public  bool isonground;
     public float checkradius;
     public LayerMask ground;
-    public GameObject groundcheck,protect;
+    public GameObject groundcheck, shield, skilleffect;
     public bool dead,inprotect;
     public AudioSource jumpmusic,bgm;
     public AudioSource deadmusic;
     public Joystick joystick;
     public RoleInfo roleInfo;
-   
-    void Start()
+    public string[] clips;
+    /// <summary>
+    /// 初始化參數
+    /// </summary>
+    void Awake()
     {        
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        roleInfo = Resources.Load<RoleInfo>("RoleInfo/" + this.gameObject.name);
+        roleInfo = Resources.LoadAll<RoleInfo>("RoleInfo")[ChoiceManager.currindex];
+        anim.runtimeAnimatorController = roleInfo.animatorctrl;
         speed = roleInfo.MoveSpeed;
         jumpforce = roleInfo.JumpSpeed;
         fanforce = 100 / roleInfo.Weight;
     }
-   
-   
-    void Update()
+    void FixedUpdate()
     {
         isonground = Physics2D.OverlapCircle(groundcheck.transform.position, checkradius, ground);//確認在地面
         anim.SetBool("fall", !isonground);
-        movement();
-        fall();
+        Movement();
+        Fall();
     }
-    
-   
-    void movement()//玩家移動
+    /// <summary>
+    /// 玩家移動
+    /// </summary>
+    private void Movement()
     {
-        
-        anim.SetFloat("speed",Mathf.Abs(rb.velocity.x));
+        if (isonground == true)
+            anim.SetFloat("speed", Mathf.Abs(rb.velocity.x));
+        else
+            anim.SetFloat("speed", 0);
+
         xvelocity = joystick.Horizontal;
         rb.velocity = new Vector2(xvelocity * speed, rb.velocity.y);
         if (xvelocity != 0)
         {
-            transform.localScale =new Vector3(xvelocity, 1, 1);
+            transform.localScale = new Vector3(xvelocity, 1, 1);
         }
         if (this.transform.position.x > 4.2f)
         {
@@ -58,7 +71,11 @@ public class PlayerCtrl : MonoBehaviour
             this.transform.position = new Vector3(4.2f, this.transform.position.y, this.transform.position.z);
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)//碰撞尖刺死亡
+    /// <summary>
+    /// 判斷碰撞尖刺死亡
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("spike"))
         {
@@ -79,30 +96,13 @@ public class PlayerCtrl : MonoBehaviour
                 GetComponent<Collider2D>().enabled = false;
                 anim.SetTrigger("dead");
         }
-
     }
-    public void deadcheck()//確認死亡
-    {
-        if (inprotect == true)
-        {
-            dead = false;
-        }
-        dead = true;
-        GameManager.Gameover(dead);
-    }
-    public void destroy()//摧毀玩家 
-    {
-        Destroy(gameObject);
-    }
+    /// <summary>
+    /// 碰到彈跳平台
+    /// </summary>
+    /// <param name="other"></param>
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("jumpplatform"))
-        {
-            jumpmusic.Play();
-            anim.SetBool("jump",true);
-            rb.velocity = new Vector2(rb.velocity.x,jumpforce/1.2f);
-            
-        }
         if (other.gameObject.CompareTag("fan"))
         {
             jumpmusic.Play();
@@ -110,59 +110,106 @@ public class PlayerCtrl : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, fanforce);
 
         }
+        if (other.gameObject.CompareTag("jumpplatform"))
+        {
+            jumpmusic.Play();
+            anim.SetBool("jump", true);
+            rb.velocity = new Vector2(rb.velocity.x, jumpforce / 1.2f);
+
+        }
     }
-   public void ninjafrogskill()//青蛙技能
+    /// <summary>
+    /// 確認死亡
+    /// </summary>
+    public void Deadcheck()
     {
-        jumpmusic.Play();
-        anim.SetBool("skill", true);
-        rb.velocity = new Vector2(rb.velocity.x, jumpforce/1.2f);
+        if (inprotect == true)
+        {
+            dead = false;
+        }
+        dead = true;
+        Destroy(gameObject);
+        GameManager.Gameover(dead);
     }
-    public void maskmanskill()//面具男技能
+    /// <summary>
+    /// 發動技能
+    /// </summary>
+    public void Skill()
     {
-        anim.SetBool("skill", true);
+        PlayAnim(AnimationClip.skill);
+        skilleffect.SetActive(true);
+        switch (roleInfo.roleName)
+        {
+            case "忍者蛙蛙":
+                jumpmusic.Play();
+                rb.velocity = new Vector2(rb.velocity.x, jumpforce / 1.2f);
+                Invoke("SkillOver", 1f);
+                break;
+            case "時間面具":
+                Time.timeScale = 0.5f;
+                Invoke("SkillOver", 5f);
+                break;
+            case "藍速":
+                speed = speed * 2;
+                Invoke("SkillOver", 5f);
+                break;
+            case "麻吉麻":
+                shield.SetActive(true);//防護罩開啟
+                inprotect = true;//保護中
+                break;
+            default:
+                break;
+        }
     }
-    
-    public void maskskillover()//面具男技能動畫結束
+    /// <summary>
+    /// 播放動畫
+    /// </summary>
+    /// <param name="clip"></param>
+    public void PlayAnim(AnimationClip clip)
     {
-        anim.SetBool("skill",false);
+        ResetAnimState();
+        anim.SetBool(clip.ToString(), true);
     }
-    public void pinkmanskill()//粉紅男技能
+    /// <summary>
+    /// 重置動畫狀態
+    /// </summary>
+    public void ResetAnimState()
     {
-        protect.SetActive(true);//防護罩開啟
-        inprotect = true;//保護中
-        anim.SetBool("skill", true); 
+        for (int i = 0; i < clips.Length; i++)
+        {
+            anim.SetBool(clips[i], false);
+        }
+        anim.SetFloat("speed", 0);
     }
-    public void pinkmanskillover()//粉紅男施放技能動畫結束
+    /// <summary>
+    /// 技能效果結束
+    /// </summary>
+    public void SkillOver()
+    {
+        Time.timeScale = 1f;//重置時間面具的技能
+        speed = roleInfo.MoveSpeed;//重置藍速的技能
+        inprotect = false;//重置麻吉麻的技能
+        skilleffect.SetActive(false);
+    }
+    /// <summary>
+    /// 播放技能動畫結束
+    /// </summary>
+    public void SkillAnimOver()
     {
         anim.SetBool("skill", false);
     }
-    public void pinkmanskillov()//粉紅男護罩沒了
+    /// <summary>
+    /// //護罩沒了
+    /// </summary>
+    public void PinkmanSkillOver()
     {
         anim.SetBool("protect", false);
-        Invoke("pink", 2f);//無敵2秒
+        Invoke("SkillOver", 2f);//無敵2秒
     }
-    public void pink()//不在保護中
-    {
-        inprotect = false;
-    }
-    public void guyskill()//guy技能
-    {
-        anim.SetBool("skill", true);
-    }
-    public void guykillover()//guy技能動畫結束
-    {
-        anim.SetBool("skill", false);
-    }
-    public void guykillstart()//guy技能開始
-    {
-        speed = 10;
-    }
-    public void guykillov()//guy技能結束
-    {
-        speed = 5;
-    }
-
-    void fall()//跳躍轉落下動畫
+    /// <summary>
+    /// //跳躍動畫轉落下動畫
+    /// </summary>
+    void Fall()
     {
         if (anim.GetBool("jump"))
         {
@@ -181,12 +228,17 @@ public class PlayerCtrl : MonoBehaviour
             }
         }
     }
-   public void audiostop()//音樂暫停
+    /// <summary>
+    /// BGM暫停
+    /// </summary>
+    public void Audiostop()
     {
         bgm.Pause();
-        
     }
-    public void audiostart()//音樂開始
+    /// <summary>
+    /// BGM播放
+    /// </summary>
+    public void Audiostart()
     {
         bgm.Play();     
     }
