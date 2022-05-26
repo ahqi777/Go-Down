@@ -16,12 +16,11 @@ public class PlayerCtrl : MonoBehaviour
     Animator anim;
     float xvelocity;
     public float speed,jumpforce,fanforce;
-    public  bool isonground;
     public float checkradius;
     public LayerMask ground;
     public GameObject groundcheck, shield, skilleffect;
-    public bool dead,inprotect;
-    public AudioSource jumpmusic,bgm;
+    public bool dead, inprotect, isonground;
+    public AudioSource jumpmusic;
     public AudioSource deadmusic;
     public Joystick joystick;
     public RoleInfo roleInfo;
@@ -113,6 +112,8 @@ public class PlayerCtrl : MonoBehaviour
         if (other.gameObject.CompareTag("jumpplatform"))
         {
             jumpmusic.Play();
+            other.gameObject.GetComponent<Animator>().Play("jump");
+            Destroy(other.gameObject, 0.25f);
             anim.SetBool("jump", true);
             rb.velocity = new Vector2(rb.velocity.x, jumpforce / 1.2f);
 
@@ -129,7 +130,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         dead = true;
         Destroy(gameObject);
-        GameManager.Gameover(dead);
+        GameManager.instance.Gameover(dead);
     }
     /// <summary>
     /// 發動技能
@@ -227,19 +228,5 @@ public class PlayerCtrl : MonoBehaviour
                 anim.SetBool("fall", true);
             }
         }
-    }
-    /// <summary>
-    /// BGM暫停
-    /// </summary>
-    public void Audiostop()
-    {
-        bgm.Pause();
-    }
-    /// <summary>
-    /// BGM播放
-    /// </summary>
-    public void Audiostart()
-    {
-        bgm.Play();     
     }
 }

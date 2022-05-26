@@ -88,7 +88,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.16666667
-    functionName: Bananadead
+    functionName: Coll_Score
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

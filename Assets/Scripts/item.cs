@@ -13,44 +13,12 @@ public class Item : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             itemmusic.Play();
-            anim.SetBool("Eat", true);
+            anim.SetTrigger("Coll");
         }
     }
-    public void Appledead()
+    public void Coll_Score()
     {
-        FindObjectOfType<ScoreManager>().appleeat();
-        anim.SetBool("Eat", false);
-        Destroy(gameObject);
-    }
-
-    public void Bananadead()
-    {
-        FindObjectOfType<ScoreManager>().bananaeat();
-        anim.SetBool("Eat", false);
-        Destroy(gameObject);
-    }
-    public void Cherrydead()
-    {
-        FindObjectOfType<ScoreManager>().cherryeat();
-        anim.SetBool("Eat", false);
-        Destroy(gameObject);
-    }
-    public void Orangedead()
-    {
-        FindObjectOfType<ScoreManager>().orangeeat();
-        anim.SetBool("Eat", false);
-        Destroy(gameObject);
-    }
-    public void Melondead()
-    {
-        FindObjectOfType<ScoreManager>().meloneat();
-        anim.SetBool("Eat", false);
-        Destroy(gameObject);
-    }
-    public void Pinappledead()
-    {
-        FindObjectOfType<ScoreManager>().pinappleeat();
-        anim.SetBool("Eat", false);
+        ScoreManager.instance.HandleScore(this.gameObject.name);
         Destroy(gameObject);
     }
 }

@@ -63,12 +63,4 @@ public class SkillManager : MonoBehaviour
         skill_Btn.enabled = false;
         ispress = true;
     }
-    public void allstop()//暫停
-    {
-        skill_Btn.enabled = false;
-    }
-    public void allstart()//開始
-    {
-        skill_Btn.enabled = true;
-    }
 }

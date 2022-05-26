@@ -2,115 +2,153 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class ScoreManager : MonoBehaviour
 {
-    public Text score1;
-    public int eat;
+    public static ScoreManager instance;
+    public Text scoreText;
+    public int score;
     public bool isdouble;
-    void Update()
+    public BGManager bGManager;
+    public ScoreRecord scoreRecord;
+    public TMP_InputField playerName;
+    public Text storeScore;
+    public GameObject hint;
+    private void Awake()
     {
-        score1.text = eat.ToString();
-        score2();
-    }
-    public void appleeat()
-    {
-        if (isdouble == true)
+        if (instance != null)
         {
-            eat += 4;
+            Destroy(this.gameObject);
         }
-        else
-        {
-            eat += 2;
-        }
-    }
-    public void bananaeat()
-    {
-        if (isdouble == true)
-        {
-            eat += 8;
-        }
-        else
-        {
-            eat += 4;
-        }
-    }
-    public void cherryeat()
-    {
-        if (isdouble == true)
-        {
-            eat += 12;
-        }
-        else
-        {
-            eat += 6;
-        }
-    }
-    public void orangeeat()
-    {
-        if (isdouble == true)
-        {
-            eat += 20;
-        }
-        else
-        {
-            eat += 10;
-        }
-    }
-    public void meloneat()
-    {
-        if (isdouble == true)
-        {
-            eat += 60;
-        }
-        else
-        {
-            eat += 30;
-        }
+        instance = this;
     }
 
-    public void pinappleeat()
+    private void Start()
     {
-        if (isdouble == true)
-        {
-            eat -= 20;
-        }
-        else 
-        {
-            eat -= 10;
-        } 
+        instance.score = 0;
     }
-    public void strawberryeat()
+    void Update()
     {
-        isdouble = true;
-        FindObjectOfType<AnimBG>().Doublestart();
-        Invoke("doublepointover", 10f);
+        instance.score = Mathf.Clamp(instance.score, 0, int.MaxValue);
+        instance.scoreText.text = instance.score.ToString();
+        if (playerName.text.Length > 8)
+        {
+            hint.SetActive(true);
+        }
+        else
+        {
+            hint.SetActive(false);
+        }
     }
-    void doublepointover()
+    /// <summary>
+    /// 判斷加給分
+    /// </summary>
+    /// <param name="name"></param>
+    public void HandleScore(string name)
     {
-        isdouble = false;
-    }//雙倍分數結束
-    
-    void score2()//換背景
+        int temp = 0;
+        switch (name)
+        {
+            case "Apple":
+                temp = 2;
+                break;
+            case "Banana":
+                temp = 4;
+                break;
+            case "Cherry":
+                temp = 6;
+                break;
+            case "Orange":
+                temp = 10;
+                break;
+            case "Melon(Clone)":
+                temp = 30;
+                break;
+            case "Pineapple(Clone)":
+                temp = -10;
+                break;
+            case "Strawberry(Clone)":
+                instance.Strawberry_Coll();
+                break;
+            default:
+                temp = 0;
+                break;
+        }
+        if (instance.isdouble)
+            temp = temp * 2;
+        instance.score = instance.score + temp;
+    }
+    public void Strawberry_Coll()
     {
-        if (eat >= 100)
+        instance.isdouble = true;
+        AudioManager.instance.ChangeBGM();
+        Invoke("DoublePointOver", 10f);
+    }
+
+    /// <summary>
+    /// 雙倍分數結束
+    /// </summary>
+    void DoublePointOver()
+    {
+        instance.isdouble = false;
+        AudioManager.instance.ChangeBGM();
+    }
+    /// <summary>
+    /// 遊戲結束，比較分數能否上前三
+    /// </summary>
+    public bool CompareScore()
+    {
+        for (int i = 0; i < scoreRecord.PlayerScore.Length - 1; i++)
         {
-            FindObjectOfType<AnimBG>().Score1();
+            if (score > scoreRecord.PlayerScore[i])
+            {
+                storeScore.text = score.ToString();
+                return true;
+            }
         }
-        if (eat >= 200)
+        return false;
+    }
+    /// <summary>
+    /// 儲存分數
+    /// </summary>
+    public void StoreScore()
+    {
+        if (playerName.text.Length > 8 || playerName.text == "")
         {
-            FindObjectOfType<AnimBG>().Score2();
+            return;
         }
-        if (eat >= 300)
+        for (int i = scoreRecord.PlayerScore.Length - 1; i >= 0; i--)//從最小的開始比
         {
-            FindObjectOfType<AnimBG>().Score3();
+            if (score >= scoreRecord.PlayerScore[i])//如果大於最小值，直接取代掉
+            {
+                scoreRecord.PlayerName[i] = playerName.text;
+                scoreRecord.PlayerScore[i] = score;
+                break;
+            }
         }
-        if (eat >= 500)
+        UpdateRecord();//更新排行榜的順序
+        hint.transform.parent.gameObject.SetActive(false);
+        hint.transform.parent.parent.GetChild(6).gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// 更新排行榜的順序
+    /// </summary>
+    void UpdateRecord()
+    {
+        for (int i = 0; i < scoreRecord.PlayerScore.Length - 1; i++)
         {
-            FindObjectOfType<AnimBG>().Score5();
-        }
-        if (eat >= 1000)
-        {
-            FindObjectOfType<AnimBG>().Score10();
+            for (int j = 0; j < scoreRecord.PlayerScore.Length - 1 - i; j++)
+            {
+                if (scoreRecord.PlayerScore[j] <= scoreRecord.PlayerScore[j + 1])
+                {
+                    string tempname = scoreRecord.PlayerName[j];
+                    int tempscore = scoreRecord.PlayerScore[j];
+                    scoreRecord.PlayerName[j] = scoreRecord.PlayerName[j + 1];
+                    scoreRecord.PlayerScore[j] = scoreRecord.PlayerScore[j + 1];
+                    scoreRecord.PlayerName[j + 1] = tempname;
+                    scoreRecord.PlayerScore[j + 1] = tempscore;
+                }
+            }
         }
     }
 }

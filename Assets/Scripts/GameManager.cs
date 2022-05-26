@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    static GameManager instance;
+    public static GameManager instance;
    
     public GameObject gameoverUI;
-
+    public GameObject scoreInputUI;
     public GameObject pause;
     public GameObject joystick;
-
+    public Button skillbtn;
     private void Awake()
     {
         if (instance != null)
@@ -26,27 +26,35 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
     }
-    public static void Gameover(bool dead)
+    public void Gameover(bool dead)
     {
         if (dead)
         {
-            instance.gameoverUI.SetActive(true);
+            if (ScoreManager.instance.CompareScore())
+            {
+                scoreInputUI.SetActive(true);
+            }
+            else
+            {
+                instance.gameoverUI.SetActive(true);
+            }
+            AudioManager.instance.BGMPause();
             Time.timeScale = 0f;
         }
     }
     public void Pause()
     {
         Time.timeScale = 0f;
-        FindObjectOfType<PlayerCtrl>().Audiostop();
-        FindObjectOfType<SkillManager>().allstop();
+        AudioManager.instance.BGMPause();
+        skillbtn.enabled = false;
         pause.SetActive(true);
         joystick.SetActive(false);
     }
     public void Resume()
     {
         Time.timeScale = 1f;
-        FindObjectOfType<PlayerCtrl>().Audiostart();
-        FindObjectOfType<SkillManager>().allstart();
+        AudioManager.instance.BGMPlay();
+        skillbtn.enabled = true;
         pause.SetActive(false);
         joystick.SetActive(true);
     }

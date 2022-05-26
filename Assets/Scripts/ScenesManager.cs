@@ -5,23 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ScenesManager : MonoBehaviour
 {
-    private void Start()
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "Choice")
-        {
-            if (!GameObject.Find("Audio(Clone)"))
-            {
-                GameObject audio = (GameObject)Resources.Load("Audio");
-                Instantiate(audio);
-            }           
-        }
-        else
-        {
-            Destroy(GameObject.Find("Audio(Clone)"));
-        }
-    }
-    public void ranking()
+    public void Ranking()
     {
         SceneManager.LoadScene(4);
     }

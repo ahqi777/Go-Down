@@ -23,7 +23,6 @@ public class MoveUp : MonoBehaviour
             speed += 0.5f;
             spaceTime += 20f;
         }
-        Debug.Log(Time.time);
         speed = Mathf.Clamp(speed, 0, 5);
         move.y = speed;
         movement(); 
@@ -31,10 +30,13 @@ public class MoveUp : MonoBehaviour
     void movement()
     {
         transform.position += move * Time.deltaTime;
-        
-        if (transform.position.y >= topline.transform.position.y)
+        if (transform.CompareTag("BG") && transform.position.y >= 17)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
+        }
+        else if (!transform.CompareTag("BG") && transform.position.y >= topline.transform.position.y)
+        {
+            Destroy(this.gameObject);
         } 
     }
 }
