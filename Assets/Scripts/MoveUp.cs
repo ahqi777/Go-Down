@@ -14,17 +14,18 @@ public class MoveUp : MonoBehaviour
         move.y = speed;
         spaceTime = 20;
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
-        if (Time.time > spaceTime)
+        if (GameManager.instance.currTime > spaceTime)
         {
-            speed += 0.5f;
+            speed += 0.2f;
             spaceTime += 20f;
         }
-        speed = Mathf.Clamp(speed, 0, 5);
+        speed = Mathf.Clamp(speed, 0, 4);
         move.y = speed;
+    }
+    void FixedUpdate()
+    {
         movement(); 
     }
     void movement()

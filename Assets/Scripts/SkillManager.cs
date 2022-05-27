@@ -51,6 +51,10 @@ public class SkillManager : MonoBehaviour
     }
     public void Press()
     {
+        if (playerCtrl.inprotect)
+        {
+            return;
+        }
         playerCtrl.Skill();
         Color red = new Color32(255, 0, 0, 50);
         Color white = new Color32(255, 255, 255, 50);

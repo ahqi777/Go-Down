@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject pause;
     public GameObject joystick;
     public Button skillbtn;
+
+    public float currTime;
     private void Awake()
     {
         if (instance != null)
@@ -20,6 +22,14 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         instance = this;
+    }
+    private void Start()
+    {
+        instance.currTime = 0;
+    }
+    private void Update()
+    {
+        instance.currTime += Time.deltaTime;
     }
     public void Restart()
     {

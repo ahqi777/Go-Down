@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 56287068}
   - component: {fileID: 56287067}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1062,7 +1062,6 @@ MonoBehaviour:
   skillNameText: {fileID: 1289408904}
   skilldescriptionText: {fileID: 1346659484}
   roleInfos: []
-  currindex: 0
 --- !u!4 &1176262822
 Transform:
   m_ObjectHideFlags: 0

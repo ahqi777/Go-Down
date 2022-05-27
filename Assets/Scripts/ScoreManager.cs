@@ -98,7 +98,7 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     public bool CompareScore()
     {
-        for (int i = 0; i < scoreRecord.PlayerScore.Length - 1; i++)
+        for (int i = 0; i < scoreRecord.PlayerScore.Length; i++)
         {
             if (score > scoreRecord.PlayerScore[i])
             {

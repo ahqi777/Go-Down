@@ -56,7 +56,7 @@ public class PlayerCtrl : MonoBehaviour
             anim.SetFloat("speed", 0);
 
         xvelocity = joystick.Horizontal;
-        rb.velocity = new Vector2(xvelocity * speed, rb.velocity.y);
+        rb.velocity = new Vector2(xvelocity * speed* 30 * Time.deltaTime, rb.velocity.y);
         if (xvelocity != 0)
         {
             transform.localScale = new Vector3(xvelocity, 1, 1);
@@ -81,6 +81,7 @@ public class PlayerCtrl : MonoBehaviour
             if (inprotect == true)
             {
                 anim.Play("pinkman_protect");
+                Invoke("SkillOver", 2f);//無敵2秒後恢復原狀態
             }
             else
             {
@@ -102,14 +103,14 @@ public class PlayerCtrl : MonoBehaviour
     /// <param name="other"></param>
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("fan"))
+        if (other.gameObject.CompareTag("fan") && this.transform.position.y > other.transform.position.y)
         {
             jumpmusic.Play();
             anim.SetBool("jump", true);
             rb.velocity = new Vector2(rb.velocity.x, fanforce);
 
         }
-        if (other.gameObject.CompareTag("jumpplatform"))
+        if (other.gameObject.CompareTag("jumpplatform") && this.transform.position.y > other.transform.position.y)
         {
             jumpmusic.Play();
             other.gameObject.GetComponent<Animator>().Play("jump");
@@ -137,7 +138,7 @@ public class PlayerCtrl : MonoBehaviour
     /// </summary>
     public void Skill()
     {
-        PlayAnim(AnimationClip.skill);
+        anim.SetBool("skill", true);
         skilleffect.SetActive(true);
         switch (roleInfo.roleName)
         {
@@ -163,34 +164,14 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
     /// <summary>
-    /// 播放動畫
-    /// </summary>
-    /// <param name="clip"></param>
-    public void PlayAnim(AnimationClip clip)
-    {
-        ResetAnimState();
-        anim.SetBool(clip.ToString(), true);
-    }
-    /// <summary>
-    /// 重置動畫狀態
-    /// </summary>
-    public void ResetAnimState()
-    {
-        for (int i = 0; i < clips.Length; i++)
-        {
-            anim.SetBool(clips[i], false);
-        }
-        anim.SetFloat("speed", 0);
-    }
-    /// <summary>
     /// 技能效果結束
     /// </summary>
     public void SkillOver()
     {
+        skilleffect.SetActive(false);
         Time.timeScale = 1f;//重置時間面具的技能
         speed = roleInfo.MoveSpeed;//重置藍速的技能
         inprotect = false;//重置麻吉麻的技能
-        skilleffect.SetActive(false);
     }
     /// <summary>
     /// 播放技能動畫結束
@@ -198,14 +179,6 @@ public class PlayerCtrl : MonoBehaviour
     public void SkillAnimOver()
     {
         anim.SetBool("skill", false);
-    }
-    /// <summary>
-    /// //護罩沒了
-    /// </summary>
-    public void PinkmanSkillOver()
-    {
-        anim.SetBool("protect", false);
-        Invoke("SkillOver", 2f);//無敵2秒
     }
     /// <summary>
     /// //跳躍動畫轉落下動畫
