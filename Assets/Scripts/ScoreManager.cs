@@ -150,5 +150,10 @@ public class ScoreManager : MonoBehaviour
                 }
             }
         }
+        for (int i = 0; i < scoreRecord.PlayerScore.Length; i++)
+        {
+            PlayerPrefs.SetString("No" + (i+1).ToString(), scoreRecord.PlayerName[i]);
+            PlayerPrefs.SetInt("No" + (i + 1).ToString() + "Score", scoreRecord.PlayerScore[i]);
+        }
     }
 }

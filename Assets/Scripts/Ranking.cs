@@ -13,7 +13,7 @@ public class Ranking : MonoBehaviour
     {
         for (int i = 0; i < scoreRecord.PlayerName.Length; i++)
         {
-            if (scoreRecord.PlayerName[0] == "")
+            if (PlayerPrefs.GetString("No1") == null)
             {
                 norecord.SetActive(true);
                 return;
@@ -21,8 +21,8 @@ public class Ranking : MonoBehaviour
             else
             {
                 norecord.SetActive(false);
-                playerList[i].transform.GetChild(0).GetComponent<Text>().text = scoreRecord.PlayerName[i] + " : ";
-                playerList[i].transform.GetChild(1).GetComponent<Text>().text = scoreRecord.PlayerScore[i].ToString();
+                playerList[i].transform.GetChild(0).GetComponent<Text>().text = PlayerPrefs.GetString("No" + (i+1).ToString());
+                playerList[i].transform.GetChild(1).GetComponent<Text>().text = PlayerPrefs.GetInt("No" + (i + 1).ToString() + "Score").ToString();
                 record.SetActive(true);
             }
         }
