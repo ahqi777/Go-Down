@@ -28,6 +28,9 @@ public class MoveUp : MonoBehaviour
     {
         movement(); 
     }
+    /// <summary>
+    /// 向上移動
+    /// </summary>
     void movement()
     {
         transform.position += move * Time.deltaTime;

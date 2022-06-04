@@ -37,6 +37,10 @@ public class SkillManager : MonoBehaviour
             }
         }   
     }
+    /// <summary>
+    /// 計算技能CD
+    /// </summary>
+    /// <returns></returns>
     public bool IsCooling()
     {
         //冷卻時間-(按下到現在已經過去的時間-剩餘的冷卻時間)
@@ -49,6 +53,9 @@ public class SkillManager : MonoBehaviour
         }
         return (coolingTime - time) < coolingTime;
     }
+    /// <summary>
+    /// 按下技能按鈕
+    /// </summary>
     public void Press()
     {
         if (playerCtrl.inprotect)

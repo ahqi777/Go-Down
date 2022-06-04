@@ -41,7 +41,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// 判斷加給分
+    /// 判斷加幾分
     /// </summary>
     /// <param name="name"></param>
     public void HandleScore(string name)
@@ -78,6 +78,9 @@ public class ScoreManager : MonoBehaviour
             temp = temp * 2;
         instance.score = instance.score + temp;
     }
+    /// <summary>
+    /// 草莓效果
+    /// </summary>
     public void Strawberry_Coll()
     {
         instance.isdouble = true;
@@ -94,7 +97,7 @@ public class ScoreManager : MonoBehaviour
         AudioManager.instance.ChangeBGM();
     }
     /// <summary>
-    /// 遊戲結束，比較分數能否上前三
+    /// 遊戲結束，比較分數能否上前五
     /// </summary>
     public bool CompareScore()
     {
@@ -150,7 +153,7 @@ public class ScoreManager : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < scoreRecord.PlayerScore.Length; i++)
+        for (int i = 0; i < scoreRecord.PlayerScore.Length; i++)//本地保存數據
         {
             PlayerPrefs.SetString("No" + (i+1).ToString(), scoreRecord.PlayerName[i]);
             PlayerPrefs.SetInt("No" + (i + 1).ToString() + "Score", scoreRecord.PlayerScore[i]);

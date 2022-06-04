@@ -31,11 +31,18 @@ public class GameManager : MonoBehaviour
     {
         instance.currTime += Time.deltaTime;
     }
+    /// <summary>
+    /// 重新開始
+    /// </summary>
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
     }
+    /// <summary>
+    /// 遊戲結束
+    /// </summary>
+    /// <param name="dead"></param>
     public void Gameover(bool dead)
     {
         if (dead)
@@ -52,6 +59,9 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
         }
     }
+    /// <summary>
+    /// 遊戲暫停
+    /// </summary>
     public void Pause()
     {
         Time.timeScale = 0f;
@@ -60,6 +70,9 @@ public class GameManager : MonoBehaviour
         pause.SetActive(true);
         joystick.SetActive(false);
     }
+    /// <summary>
+    /// 繼續遊戲
+    /// </summary>
     public void Resume()
     {
         Time.timeScale = 1f;
